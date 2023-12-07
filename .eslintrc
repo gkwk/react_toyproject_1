@@ -1,0 +1,9 @@
+{
+  "env": {
+    "es6": true
+  },
+  "rules": {
+    "no-multiple-empty-lines": "error",
+    "no-unused-vars": "warn"
+  }
+}
