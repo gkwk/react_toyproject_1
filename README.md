@@ -5,6 +5,15 @@
 - React
 - React-router-dom
 - Bootstrap
+# 구현 목표
+- [ ] ToDo 목록 요청 및 출력
+- [ ] ToDo 상세 내용 요청 출력
+- [ ] ToDo 작성 요청
+- [ ] ToDo 수정 요청
+- [ ] ToDo 삭제 요청
+- [ ] 회원 가입 요청
+- [ ] 로그인
+- [ ] 로그아웃
 # 실행방법
 - 터미널에서 아래의 명령어 입력
 ```bash
