@@ -6,8 +6,8 @@
 - React-router-dom
 - Bootstrap
 # 구현 목표
-- [ ] ToDo 목록 요청 및 출력
-- [ ] ToDo 상세 내용 요청 출력
+- [x] ToDo 목록 요청 및 출력
+- [x] ToDo 상세 내용 요청 출력
 - [ ] ToDo 작성 요청
 - [ ] ToDo 수정 요청
 - [ ] ToDo 삭제 요청
