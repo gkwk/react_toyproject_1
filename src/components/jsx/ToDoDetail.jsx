@@ -13,7 +13,7 @@ function ToDoDetail() {
   const userId = process.env.REACT_APP_TEST_USER_ID;
 
   function getToDoDetail() {
-    FastApi("get",`api/todo/detail/${userId}/${id}`,null,(json)=>{set_toDoDetail([...json])},(json)=>{console.log(json)})
+    FastApi("get",`api/todo/detail/${userId}/${id}`,null,(json)=>{set_toDoDetail([...json])},null)
   }
 
   function detailToDo() {
@@ -41,13 +41,13 @@ function ToDoDetail() {
   useEffect(() => {getToDoDetail()},[]);
 
   return (
-    <div className="text-center">
-      <ul>
+    <div className="text-center container">
+      <ul className="list-unstyled">
         {detailToDo()}
       </ul>
       <br />
       <Link to={"/"}>
-        <button>
+        <button className="btn btn-primary">
           Back
         </button>
       </Link>
