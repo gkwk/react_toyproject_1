@@ -29,6 +29,12 @@ function FastApi(method, url, params, success_callback, failure_callback) {
 
   fetch(targetUrl, parameters)
   .then((response) => {
+    if(response.status === 204) {
+      if(success_callback) {
+        success_callback()
+      }
+      return
+    }
     response.json()
       .then((json) => {
         var newJson = json;
