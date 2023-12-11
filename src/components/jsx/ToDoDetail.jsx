@@ -56,7 +56,7 @@ function ToDoDetail() {
     <div className="container">
       {detailToDo()}
 
-      <div className='text-center'>
+      <div className="text-center">
         <Link to={'/'}>
           <button className="btn btn-primary">Back</button>
         </Link>
