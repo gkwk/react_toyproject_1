@@ -53,7 +53,7 @@ function Home() {
               return (
                 <Fragment key={index}>
                   <tr>
-                    <td>{parseInt(index) + 1}</td>
+                    <td>{total - (page * size) - parseInt(index)}</td>
                     <td>
                       <Link to={'/todo/' + toDoList[index].id}>
                         {toDoList[index].todo_name}
