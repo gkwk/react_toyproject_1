@@ -11,8 +11,16 @@ function App() {
       Component: Home,
     },
     {
-      path: '/:id',
+      path: '/todo/:id',
       Component: ToDoDetail,
+    },
+    {
+      path: '/register',
+      Component: ()=>{return "register"},
+    },
+    {
+      path: '/:id',
+      Component: ()=>{return "register"},
     },
     {
       path: '*',
