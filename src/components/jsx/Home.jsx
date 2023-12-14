@@ -1,6 +1,8 @@
 import { useState, useEffect, Fragment } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 
+import moment from 'moment/min/moment-with-locales'
+
 import FastApi from '../../api/FastApi';
 import FastApiErrorMessage from './FastApiErrorMessage';
 import Header from './Header';
@@ -16,6 +18,8 @@ function Home() {
   const navigate = useNavigate();
 
   const userId = process.env.REACT_APP_TEST_USER_ID;
+
+  moment.locale('ko')
 
   function getToDoList() {
     FastApi(
@@ -55,7 +59,7 @@ function Home() {
                         {toDoList[index].todo_name}
                       </Link>
                     </td>
-                    <td>{toDoList[index].create_date}</td>
+                    <td>{moment(toDoList[index].create_date).format("YYYY년 MM월 DD일 hh:mm a")}</td>
                   </tr>
                 </Fragment>
               );

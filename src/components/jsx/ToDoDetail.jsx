@@ -1,6 +1,8 @@
 import { useState, useEffect, Fragment } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 
+import moment from 'moment/min/moment-with-locales'
+
 import FastApi from '../../api/FastApi';
 
 function ToDoDetail() {
@@ -11,6 +13,8 @@ function ToDoDetail() {
   const navigate = useNavigate();
 
   const userId = process.env.REACT_APP_TEST_USER_ID;
+
+  moment.locale('ko');
 
   function getToDoDetail() {
     FastApi(
@@ -36,7 +40,7 @@ function ToDoDetail() {
                   <div className="card-text">{todo.text}</div>
                   <div className="d-flex justify-content-end">
                     <div className="badge bg-light text-dark p-2">
-                      {todo.create_date}
+                      {moment(todo.create_date).format("YYYY년 MM월 DD일 hh:mm a")}
                     </div>
                   </div>
                 </div>
