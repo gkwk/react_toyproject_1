@@ -151,18 +151,26 @@ function Home() {
           
 
           <li className={`page-item ${page <= 0 && "disabled"}`}>
-              <button className="page-link" onClick={() => set_page((page) => (page-1))}>이전</button>
+            <button className="page-link" onClick={() => set_page(0)}>{"<<"}</button>
+          </li>
+          <li className={`page-item ${page <= 0 && "disabled"}`}>
+            <button className="page-link" onClick={() => set_page((page) => (page-1))}>이전</button>
           </li>
           
           {pageArray.map((index) => {
-            return (
-              <li key={index} className={`page-item ${(index === page) && "active"}`}>
-                <button className="page-link" onClick={() => set_page(index)}>{index+1}</button>
-              </li>
-            )
+            if ((index >= page-5 && index <= page+5)) {
+              return (
+                <li key={index} className={`page-item ${(index === page) && "active"}`}>
+                  <button className="page-link" onClick={() => set_page(index)}>{index+1}</button>
+                </li>
+              )
+            }
           })}
           <li className={`page-item ${page >= totalPage-1 && "disabled"}`}>
-              <button className="page-link" onClick={() => set_page((page) => (page+1))}>다음</button>
+            <button className="page-link" onClick={() => set_page((page) => (page+1))}>다음</button>
+          </li>
+          <li className={`page-item ${page >= totalPage-1 && "disabled"}`}>
+            <button className="page-link" onClick={() => set_page(totalPage-1)}>{">>"}</button>
           </li>
         </ul>
       </Fragment>
