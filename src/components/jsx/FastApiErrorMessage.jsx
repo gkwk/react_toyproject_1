@@ -13,8 +13,8 @@ function FastApiErrorMessage(error) {
         return Object.keys(error.detail).map((index) => {
           return (
             <Fragment key={index}>
-              <li>
-                {error.detail[index].loc[1] + ' : ' + error.detail[index].msg}
+              <li className='alert alert-danger' role='alert'>
+                <strong>{error.detail[index].loc[1]}</strong> : {error.detail[index].msg}
               </li>
             </Fragment>
           );

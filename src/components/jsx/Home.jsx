@@ -3,10 +3,15 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 
 import FastApi from '../../api/FastApi';
 import FastApiErrorMessage from './FastApiErrorMessage';
+import Header from './Header';
 
 function Home() {
   const [toDoList, set_toDoList] = useState([]);
   const [errorDetail, set_errorDetail] = useState({ detail: [] });
+  const [page, set_page] = useState(0);
+  const [size, set_size] = useState(10);
+  const [total, set_total] = useState(0);
+  const [totalPage, set_totalPage] = useState(1);
 
   const navigate = useNavigate();
 
@@ -16,9 +21,13 @@ function Home() {
     FastApi(
       'get',
       `api/todo/list/${userId}`,
-      null,
+      {
+        page : page,
+        size : size
+      },
       (json) => {
-        set_toDoList([...json]);
+        set_toDoList([...json.todoList]);
+        set_total(json.total);
       },
       null,
     );
@@ -29,7 +38,7 @@ function Home() {
       <Fragment>
         <table className="table">
           <thead>
-            <tr className="table-dark">
+            <tr className="table-primary">
               <th>번호</th>
               <th>제목</th>
               <th>작성일시</th>
@@ -42,7 +51,7 @@ function Home() {
                   <tr>
                     <td>{parseInt(index) + 1}</td>
                     <td>
-                      <Link to={'/' + toDoList[index].id}>
+                      <Link to={'/todo/' + toDoList[index].id}>
                         {toDoList[index].todo_name}
                       </Link>
                     </td>
@@ -58,7 +67,7 @@ function Home() {
   }
 
   useEffect(() => {
-    getToDoList();
+    getToDoList(page);
   }, []);
 
   const [ToDo_New_name, set_ToDo_New_name] = useState('');
@@ -120,12 +129,58 @@ function Home() {
     );
   }
 
+
+  function setPageNumber(event) {
+    set_page(event.target.value)
+  }
+
+  useEffect(()=> {
+    getToDoList(page)
+  },[page])
+
+  useEffect(()=> {
+    set_totalPage(Math.ceil(total/size))
+  },[total,size])
+
+  function pageBar() {
+    const pageArray = Array.from({length : totalPage},(v,i) => i);
+
+    return (
+      <Fragment>
+        <ul className="pagination justify-content-center">
+          
+
+          <li className={`page-item ${page <= 0 && "disabled"}`}>
+              <button className="page-link" onClick={() => set_page((page) => (page-1))}>이전</button>
+          </li>
+          
+          {pageArray.map((index) => {
+            return (
+              <li key={index} className={`page-item ${(index === page) && "active"}`}>
+                <button className="page-link" onClick={() => set_page(index)}>{index+1}</button>
+              </li>
+            )
+          })}
+          <li className={`page-item ${page >= totalPage-1 && "disabled"}`}>
+              <button className="page-link" onClick={() => set_page((page) => (page+1))}>다음</button>
+          </li>
+        </ul>
+      </Fragment>
+    )
+  }
+
   return (
-    <div className="text-center container">
-      {todoForm()}
-      {FastApiErrorMessage(errorDetail)}
-      <ul className="list-unstyled">{listingToDo()}</ul>
+    <Fragment>
+      <Header />
+      <div className="container">
+        {todoForm()}
+        <br />
+        {FastApiErrorMessage(errorDetail)}
+        <ul className="text-center list-unstyled">{listingToDo()}</ul>
+
+        {pageBar()}
     </div>
+    </Fragment>
   );
 }
 

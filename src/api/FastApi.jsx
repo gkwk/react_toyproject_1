@@ -20,7 +20,7 @@ function FastApi(method, url, params, success_callback, failure_callback) {
 
   if (method.toUpperCase() === 'GET') {
     if (params !== null) {
-      targetUrl += '?' + params;
+      targetUrl += '?' + (new URLSearchParams(params)).toString();
     }
   } else {
     parameters['body'] = body;
