@@ -6,7 +6,9 @@ function FastApiErrorMessage(error) {
       if (typeof error.detail === 'string') {
         return (
           <Fragment>
-            <li>{error.detail}</li>
+            <li className='alert alert-danger' role='alert'>
+              <strong>{error.detail}</strong>
+            </li>
           </Fragment>
         );
       } else if (typeof error.detail === 'object' && error.detail.length > 0) {
