@@ -25,6 +25,8 @@ function Home() {
     FastApi(
       'get',
       `api/todo/list/${userId}`,
+      null
+      ,
       {
         page : page,
         size : size
@@ -83,6 +85,8 @@ function Home() {
     FastApi(
       'POST',
       `api/todo/create/${userId}`,
+      null
+      ,
       { user_id: userId, todo_name: ToDo_New_name, text: ToDo_New_text },
       () => {
         set_ToDo_New_name('');
