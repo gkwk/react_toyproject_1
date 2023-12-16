@@ -17,7 +17,7 @@ function Home() {
 
   const navigate = useNavigate();
 
-  const userId = process.env.REACT_APP_TEST_USER_ID;
+  const userId = localStorage.getItem("id");
 
   moment.locale('ko')
 
