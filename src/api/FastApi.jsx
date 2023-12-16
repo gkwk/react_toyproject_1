@@ -1,6 +1,7 @@
-function FastApi(method, url, params, success_callback, failure_callback) {
-  const contentType = 'application/json';
-  const body = JSON.stringify(params);
+import QueryString from "qs";
+
+function FastApi(method, url, content_type, params, success_callback, failure_callback) {
+  const contentType =  (content_type === null) ? 'application/json' : content_type ;
   const rootDomain = process.env.REACT_APP_FASTAPI_ROOT_DOMAIN;
   const port = process.env.REACT_APP_FASTAPI_PORT;
 
@@ -23,9 +24,19 @@ function FastApi(method, url, params, success_callback, failure_callback) {
       targetUrl += '?' + (new URLSearchParams(params)).toString();
     }
   } else {
-    parameters['body'] = body;
+    if (contentType === "application/x-www-form-urlencoded") {
+      parameters = {
+        method: "POST",
+        headers: {
+          'Content-Type': contentType,
+        },
+        body : QueryString.stringify(params)
+      };
+    } else {
+      parameters['body'] = JSON.stringify(params);
+    }
   }
-
+  
   fetch(targetUrl, parameters).then((response) => {
     if (response.status === 204) {
       if (success_callback) {
