@@ -23,6 +23,8 @@ function Register() {
     FastApi(
       'POST',
       `api/user/register`,
+      null
+      ,
       { name: username, password1: password1, password2: password2, email: email },
       () => {
         navigate("/")
