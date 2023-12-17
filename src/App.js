@@ -11,6 +11,7 @@ import ToDoDetail from './components/jsx/ToDoDetail.jsx';
 import Register from './components/jsx/Register.jsx';
 import Login from './components/jsx/Login.jsx';
 import { useEffect } from 'react';
+import ToDoEdit from './components/jsx/ToDoEdit.jsx';
 
 function App() {
   const router = createBrowserRouter([
@@ -21,6 +22,10 @@ function App() {
     {
       path: '/todo/:id',
       Component: ToDoDetail,
+    },
+    {
+      path: '/todo/edit/:id',
+      Component: ToDoEdit,
     },
     {
       path: '/register',
