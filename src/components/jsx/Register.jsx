@@ -23,8 +23,7 @@ function Register() {
     FastApi(
       'POST',
       `api/user/register`,
-      null
-      ,
+      null,
       { name: username, password1: password1, password2: password2, email: email },
       () => {
         navigate("/")
@@ -32,6 +31,7 @@ function Register() {
       (json) => {
         set_errorDetail(json);
       },
+      false
     );
   }
 
