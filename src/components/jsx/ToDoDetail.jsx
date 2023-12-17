@@ -43,6 +43,13 @@ function ToDoDetail() {
                 )}
               </div>
             </div>
+            <div className="d-flex justify-content-end">
+              <div className="badge bg-light text-dark p-2" hidden={(toDoDetail.update_date === null) ? true : false}>
+                수정됨 - {moment(toDoDetail.update_date).format(
+                  'YYYY년 MM월 DD일 hh:mm a',
+                )}
+              </div>
+            </div>
           </div>
         </div>
       </Fragment>
@@ -60,7 +67,11 @@ function ToDoDetail() {
         {detailToDo()}
 
         <div className="text-center">
-          <Link to={'/'}>
+          <Link to={`/todo/edit/${id}`}>
+            <button className="btn btn-primary">Edit</button>
+          </Link>
+
+          <Link to={'/'} className='ps-3'>
             <button className="btn btn-primary">Back</button>
           </Link>
         </div>
