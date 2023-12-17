@@ -1,7 +1,15 @@
-import QueryString from "qs";
+import QueryString from 'qs';
 
-function FastApi(method, url, content_type, params, success_callback, failure_callback, attachToken) {
-  const contentType =  (content_type === null) ? 'application/json' : content_type ;
+function FastApi(
+  method,
+  url,
+  content_type,
+  params,
+  success_callback,
+  failure_callback,
+  attachToken,
+) {
+  const contentType = content_type === null ? 'application/json' : content_type;
   const rootDomain = process.env.REACT_APP_FASTAPI_ROOT_DOMAIN;
   const port = process.env.REACT_APP_FASTAPI_PORT;
 
@@ -21,16 +29,16 @@ function FastApi(method, url, content_type, params, success_callback, failure_ca
 
   if (method.toUpperCase() === 'GET') {
     if (params !== null) {
-      targetUrl += '?' + (new URLSearchParams(params)).toString();
+      targetUrl += '?' + new URLSearchParams(params).toString();
     }
   } else {
-    if (contentType === "application/x-www-form-urlencoded") {
+    if (contentType === 'application/x-www-form-urlencoded') {
       parameters = {
-        method: "POST",
+        method: 'POST',
         headers: {
           'Content-Type': contentType,
         },
-        body : QueryString.stringify(params)
+        body: QueryString.stringify(params),
       };
     } else {
       parameters['body'] = JSON.stringify(params);
@@ -38,7 +46,9 @@ function FastApi(method, url, content_type, params, success_callback, failure_ca
   }
 
   if (attachToken) {
-    parameters.headers["Authorization"] = `Bearer ${localStorage.getItem("accessToken")}`
+    parameters.headers['Authorization'] = `Bearer ${localStorage.getItem(
+      'accessToken',
+    )}`;
   }
 
   fetch(targetUrl, parameters).then((response) => {

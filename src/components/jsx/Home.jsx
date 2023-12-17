@@ -1,7 +1,7 @@
 import { useState, useEffect, Fragment } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 
-import moment from 'moment/min/moment-with-locales'
+import moment from 'moment/min/moment-with-locales';
 
 import FastApi from '../../api/FastApi';
 import FastApiErrorMessage from './FastApiErrorMessage';
@@ -17,7 +17,7 @@ function Home() {
 
   const navigate = useNavigate();
 
-  moment.locale('ko')
+  moment.locale('ko');
 
   function getToDoList() {
     FastApi(
@@ -25,15 +25,15 @@ function Home() {
       `api/todo/list`,
       null,
       {
-        page : page,
-        size : size
+        page: page,
+        size: size,
       },
       (json) => {
         set_toDoList([...json.todoList]);
         set_total(json.total);
       },
       null,
-      true
+      true,
     );
   }
 
@@ -53,13 +53,17 @@ function Home() {
               return (
                 <Fragment key={index}>
                   <tr>
-                    <td>{total - (page * size) - parseInt(index)}</td>
+                    <td>{total - page * size - parseInt(index)}</td>
                     <td>
                       <Link to={'/todo/' + toDoList[index].id}>
                         {toDoList[index].todo_name}
                       </Link>
                     </td>
-                    <td>{moment(toDoList[index].create_date).format("YYYY년 MM월 DD일 hh:mm a")}</td>
+                    <td>
+                      {moment(toDoList[index].create_date).format(
+                        'YYYY년 MM월 DD일 hh:mm a',
+                      )}
+                    </td>
                   </tr>
                 </Fragment>
               );
@@ -79,8 +83,7 @@ function Home() {
     FastApi(
       'POST',
       `api/todo/create/${userId}`,
-      null
-      ,
+      null,
       { user_id: userId, todo_name: ToDo_New_name, text: ToDo_New_text },
       () => {
         set_ToDo_New_name('');
@@ -131,54 +134,73 @@ function Home() {
     );
   }
 
-
   function setPageNumber(event) {
-    set_page(event.target.value)
+    set_page(event.target.value);
   }
 
-  useEffect(()=> {
-    if (localStorage.getItem("accessToken") !== null) {
+  useEffect(() => {
+    if (localStorage.getItem('accessToken') !== null) {
       getToDoList(page);
     }
-  },[page])
+  }, [page]);
 
-  useEffect(()=> {
-    set_totalPage(Math.ceil(total/size))
-  },[total,size])
+  useEffect(() => {
+    set_totalPage(Math.ceil(total / size));
+  }, [total, size]);
 
   function pageBar() {
-    const pageArray = Array.from({length : totalPage},(v,i) => i);
+    const pageArray = Array.from({ length: totalPage }, (v, i) => i);
 
     return (
       <Fragment>
         <ul className="pagination justify-content-center">
-          
+          <li className={`page-item ${page <= 0 && 'disabled'}`}>
+            <button className="page-link" onClick={() => set_page(0)}>
+              {'<<'}
+            </button>
+          </li>
+          <li className={`page-item ${page <= 0 && 'disabled'}`}>
+            <button
+              className="page-link"
+              onClick={() => set_page((page) => page - 1)}
+            >
+              이전
+            </button>
+          </li>
 
-          <li className={`page-item ${page <= 0 && "disabled"}`}>
-            <button className="page-link" onClick={() => set_page(0)}>{"<<"}</button>
-          </li>
-          <li className={`page-item ${page <= 0 && "disabled"}`}>
-            <button className="page-link" onClick={() => set_page((page) => (page-1))}>이전</button>
-          </li>
-          
           {pageArray.map((index) => {
-            if ((index >= page-5 && index <= page+5)) {
+            if (index >= page - 5 && index <= page + 5) {
               return (
-                <li key={index} className={`page-item ${(index === page) && "active"}`}>
-                  <button className="page-link" onClick={() => set_page(index)}>{index+1}</button>
+                <li
+                  key={index}
+                  className={`page-item ${index === page && 'active'}`}
+                >
+                  <button className="page-link" onClick={() => set_page(index)}>
+                    {index + 1}
+                  </button>
                 </li>
-              )
+              );
             }
           })}
-          <li className={`page-item ${page >= totalPage-1 && "disabled"}`}>
-            <button className="page-link" onClick={() => set_page((page) => (page+1))}>다음</button>
+          <li className={`page-item ${page >= totalPage - 1 && 'disabled'}`}>
+            <button
+              className="page-link"
+              onClick={() => set_page((page) => page + 1)}
+            >
+              다음
+            </button>
           </li>
-          <li className={`page-item ${page >= totalPage-1 && "disabled"}`}>
-            <button className="page-link" onClick={() => set_page(totalPage-1)}>{">>"}</button>
+          <li className={`page-item ${page >= totalPage - 1 && 'disabled'}`}>
+            <button
+              className="page-link"
+              onClick={() => set_page(totalPage - 1)}
+            >
+              {'>>'}
+            </button>
           </li>
         </ul>
       </Fragment>
-    )
+    );
   }
 
   return (
@@ -191,7 +213,7 @@ function Home() {
         <ul className="text-center list-unstyled">{listingToDo()}</ul>
 
         {pageBar()}
-    </div>
+      </div>
     </Fragment>
   );
 }

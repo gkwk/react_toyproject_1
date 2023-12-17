@@ -1,5 +1,5 @@
-import { Fragment } from "react";
-import Header from "./Header";
+import { Fragment } from 'react';
+import Header from './Header';
 
 function NotFound() {
   return (

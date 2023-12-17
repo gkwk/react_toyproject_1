@@ -1,7 +1,7 @@
 import { useState, useEffect, Fragment } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 
-import moment from 'moment/min/moment-with-locales'
+import moment from 'moment/min/moment-with-locales';
 
 import FastApi from '../../api/FastApi';
 import Header from './Header';
@@ -22,10 +22,10 @@ function ToDoDetail() {
       null,
       null,
       (json) => {
-        set_toDoDetail({...json});
+        set_toDoDetail({ ...json });
       },
       null,
-      true
+      true,
     );
   }
 
@@ -38,7 +38,9 @@ function ToDoDetail() {
             <div className="card-text">{toDoDetail.text}</div>
             <div className="d-flex justify-content-end">
               <div className="badge bg-light text-dark p-2">
-                {moment(toDoDetail.create_date).format("YYYY년 MM월 DD일 hh:mm a")}
+                {moment(toDoDetail.create_date).format(
+                  'YYYY년 MM월 DD일 hh:mm a',
+                )}
               </div>
             </div>
           </div>

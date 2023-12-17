@@ -1,7 +1,7 @@
 import { useState, useEffect, Fragment } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 
-import moment from 'moment/min/moment-with-locales'
+import moment from 'moment/min/moment-with-locales';
 
 import FastApi from '../../api/FastApi';
 import FastApiErrorMessage from './FastApiErrorMessage';
@@ -13,7 +13,7 @@ function Login() {
 
   const [errorDetail, set_errorDetail] = useState({ detail: [] });
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   function submitLoginForm(event) {
     event.preventDefault();
@@ -21,17 +21,17 @@ function Login() {
     FastApi(
       'POST',
       `api/user/login`,
-      "application/x-www-form-urlencoded",
-      { username: userName, password: password},
+      'application/x-www-form-urlencoded',
+      { username: userName, password: password },
       (json) => {
-        localStorage.setItem("name",json.name);
-        localStorage.setItem("accessToken",json.access_token);
-        navigate("/")
+        localStorage.setItem('name', json.name);
+        localStorage.setItem('accessToken', json.access_token);
+        navigate('/');
       },
       (json) => {
         set_errorDetail(json);
       },
-      false
+      false,
     );
   }
 
@@ -51,17 +51,35 @@ function Login() {
         <form method="post">
           <div className="mb-3">
             <label htmlFor="username">사용자 이름</label>
-            <input type="text" className="form-control" id="username" onChange={changeUsername} value={userName}/>
+            <input
+              type="text"
+              className="form-control"
+              id="username"
+              onChange={changeUsername}
+              value={userName}
+            />
           </div>
           <div className="mb-3">
             <label htmlFor="password1">비밀번호</label>
-            <input type="password" className="form-control" id="password" onChange={changePassword} value={password}/>
+            <input
+              type="password"
+              className="form-control"
+              id="password"
+              onChange={changePassword}
+              value={password}
+            />
           </div>
-          <button type="submit" className="btn btn-primary" onClick={submitLoginForm}>로그인</button>
+          <button
+            type="submit"
+            className="btn btn-primary"
+            onClick={submitLoginForm}
+          >
+            로그인
+          </button>
         </form>
       </div>
     </Fragment>
-  )
+  );
 }
 
 export default Login;

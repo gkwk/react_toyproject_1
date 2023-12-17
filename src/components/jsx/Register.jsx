@@ -1,7 +1,7 @@
 import { useState, useEffect, Fragment } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 
-import moment from 'moment/min/moment-with-locales'
+import moment from 'moment/min/moment-with-locales';
 
 import FastApi from '../../api/FastApi';
 import FastApiErrorMessage from './FastApiErrorMessage';
@@ -15,7 +15,7 @@ function Register() {
 
   const [errorDetail, set_errorDetail] = useState({ detail: [] });
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   function submitRegisterForm(event) {
     event.preventDefault();
@@ -24,14 +24,19 @@ function Register() {
       'POST',
       `api/user/register`,
       null,
-      { name: username, password1: password1, password2: password2, email: email },
+      {
+        name: username,
+        password1: password1,
+        password2: password2,
+        email: email,
+      },
       () => {
-        navigate("/")
+        navigate('/');
       },
       (json) => {
         set_errorDetail(json);
       },
-      false
+      false,
     );
   }
 
@@ -48,7 +53,6 @@ function Register() {
     set_email(event.target.value);
   }
 
-
   return (
     <Fragment>
       <Header />
@@ -58,25 +62,55 @@ function Register() {
         <form method="post">
           <div className="mb-3">
             <label htmlFor="username">사용자 이름</label>
-            <input type="text" className="form-control" id="username" onChange={changeUsername} value={username}/>
+            <input
+              type="text"
+              className="form-control"
+              id="username"
+              onChange={changeUsername}
+              value={username}
+            />
           </div>
           <div className="mb-3">
             <label htmlFor="password1">비밀번호</label>
-            <input type="password" className="form-control" id="password1" onChange={changePassword1} value={password1}/>
+            <input
+              type="password"
+              className="form-control"
+              id="password1"
+              onChange={changePassword1}
+              value={password1}
+            />
           </div>
           <div className="mb-3">
             <label htmlFor="password2">비밀번호 확인</label>
-            <input type="password" className="form-control" id="password2" onChange={changePassword2} value={password2}/>
+            <input
+              type="password"
+              className="form-control"
+              id="password2"
+              onChange={changePassword2}
+              value={password2}
+            />
           </div>
           <div className="mb-3">
             <label htmlFor="email">이메일</label>
-            <input type="text" className="form-control" id="email" onChange={changeEmail} value={email}/>
+            <input
+              type="text"
+              className="form-control"
+              id="email"
+              onChange={changeEmail}
+              value={email}
+            />
           </div>
-          <button type="submit" className="btn btn-primary" onClick={submitRegisterForm}>가입</button>
+          <button
+            type="submit"
+            className="btn btn-primary"
+            onClick={submitRegisterForm}
+          >
+            가입
+          </button>
         </form>
       </div>
     </Fragment>
-  )
+  );
 }
 
 export default Register;

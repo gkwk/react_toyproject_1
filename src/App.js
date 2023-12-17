@@ -1,4 +1,9 @@
-import { createBrowserRouter, redirect, RouterProvider, useNavigate } from 'react-router-dom';
+import {
+  createBrowserRouter,
+  redirect,
+  RouterProvider,
+  useNavigate,
+} from 'react-router-dom';
 
 import NotFound from './components/jsx/NotFound.jsx';
 import Home from './components/jsx/Home.jsx';
@@ -30,10 +35,10 @@ function App() {
       Component: () => {
         const navigate = useNavigate();
         useEffect(() => {
-          localStorage.removeItem("name");
-          localStorage.removeItem("accessToken");
-          navigate("/")
-        },[navigate])
+          localStorage.removeItem('name');
+          localStorage.removeItem('accessToken');
+          navigate('/');
+        }, [navigate]);
       },
     },
     {
