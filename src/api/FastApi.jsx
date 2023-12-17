@@ -1,6 +1,6 @@
 import QueryString from "qs";
 
-function FastApi(method, url, content_type, params, success_callback, failure_callback) {
+function FastApi(method, url, content_type, params, success_callback, failure_callback, attachToken) {
   const contentType =  (content_type === null) ? 'application/json' : content_type ;
   const rootDomain = process.env.REACT_APP_FASTAPI_ROOT_DOMAIN;
   const port = process.env.REACT_APP_FASTAPI_PORT;
@@ -36,7 +36,11 @@ function FastApi(method, url, content_type, params, success_callback, failure_ca
       parameters['body'] = JSON.stringify(params);
     }
   }
-  
+
+  if (attachToken) {
+    parameters.headers["Authorization"] = `Bearer ${localStorage.getItem("accessToken")}`
+  }
+
   fetch(targetUrl, parameters).then((response) => {
     if (response.status === 204) {
       if (success_callback) {
