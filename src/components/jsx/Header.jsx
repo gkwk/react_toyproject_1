@@ -21,7 +21,7 @@ function Header() {
   },[])
 
   function navBarUserLoginLogOut() {
-    if (localStorage.getItem("id") === null) {
+    if (localStorage.getItem("accessToken") === null) {
       return (
         <Fragment>
           <li className={`nav-item ${navBarToggle && "ms-auto"} ps-2`}>
