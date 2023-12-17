@@ -24,14 +24,14 @@ function Login() {
       "application/x-www-form-urlencoded",
       { username: userName, password: password},
       (json) => {
-        localStorage.setItem("id",json.id);
         localStorage.setItem("name",json.name);
-        localStorage.setItem("accessToken",json.accessToken);
+        localStorage.setItem("accessToken",json.access_token);
         navigate("/")
       },
       (json) => {
         set_errorDetail(json);
       },
+      false
     );
   }
 
