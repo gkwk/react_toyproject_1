@@ -17,16 +17,13 @@ function Home() {
 
   const navigate = useNavigate();
 
-  const userId = localStorage.getItem("id");
-
   moment.locale('ko')
 
   function getToDoList() {
     FastApi(
       'get',
-      `api/todo/list/${userId}`,
-      null
-      ,
+      `api/todo/list`,
+      null,
       {
         page : page,
         size : size
@@ -36,6 +33,7 @@ function Home() {
         set_total(json.total);
       },
       null,
+      true
     );
   }
 
@@ -71,10 +69,6 @@ function Home() {
       </Fragment>
     );
   }
-
-  useEffect(() => {
-    getToDoList(page);
-  }, []);
 
   const [ToDo_New_name, set_ToDo_New_name] = useState('');
   const [ToDo_New_text, set_ToDo_New_text] = useState('');
@@ -143,7 +137,9 @@ function Home() {
   }
 
   useEffect(()=> {
-    getToDoList(page)
+    if (localStorage.getItem("accessToken") !== null) {
+      getToDoList(page);
+    }
   },[page])
 
   useEffect(()=> {
