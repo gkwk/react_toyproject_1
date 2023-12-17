@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 
 function Header() {
@@ -20,6 +20,33 @@ function Header() {
     })
   },[])
 
+  function navBarUserLoginLogOut() {
+    if (localStorage.getItem("id") === null) {
+      return (
+        <Fragment>
+          <li className={`nav-item ${navBarToggle && "ms-auto"} ps-2`}>
+          <Link to={"/register"} className="navbar-link">회원가입</Link>
+          </li>
+
+          <li className={`nav-item ${navBarToggle && "ms-auto"} ps-2`}>
+          <Link to={"/login"} className="navbar-link">로그인</Link>
+          </li>
+        </Fragment>
+      )
+    } else {
+      return (
+        <Fragment>
+          <li className={`nav-item ${navBarToggle && "ms-auto"} ps-2`}>{localStorage.getItem("name")}님 환영합니다</li>
+
+          <li className={`nav-item ${navBarToggle && "ms-auto"} ps-2`}>
+          <Link to={"/logout"} className="navbar-link">로그아웃</Link>
+          </li>
+      </Fragment>
+      )
+    }
+  }
+
+
     return (
 			<nav className="navbar navbar-expand-lg navbar-light bg-light border-bottom">
 
@@ -36,13 +63,9 @@ function Header() {
 						<span className="navbar-toggler-icon" />
 				</button>
 				<div className="collapse navbar-collapse" id="navbarSupportedContent" ref={isNavBarToggled}>
+
 						<ul className="navbar-nav ms-auto mb-2 mb-lg-0">
-								<li className={`nav-item ${navBarToggle && "ms-auto"} ps-2`}>
-								<Link to={"/register"} className="navbar-link">회원가입</Link>
-								</li>
-								<li className={`nav-item ${navBarToggle && "ms-auto"} ps-2`}>
-								<Link to={"/login"} className="navbar-link">로그인</Link>
-								</li>
+              {navBarUserLoginLogOut()}
 						</ul>
 				</div>
 			</div>
