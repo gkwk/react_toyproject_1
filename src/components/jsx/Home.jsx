@@ -82,18 +82,20 @@ function Home() {
 
     FastApi(
       'POST',
-      `api/todo/create/${userId}`,
+      `api/todo/create`,
       null,
-      { user_id: userId, todo_name: ToDo_New_name, text: ToDo_New_text },
+      { todo_name: ToDo_New_name, text: ToDo_New_text },
       () => {
         set_ToDo_New_name('');
         set_ToDo_New_text('');
+        set_errorDetail({ detail: [] });
 
         getToDoList();
       },
       (json) => {
         set_errorDetail(json);
       },
+      true
     );
   }
 
