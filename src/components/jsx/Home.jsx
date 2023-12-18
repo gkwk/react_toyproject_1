@@ -7,6 +7,8 @@ import FastApi from '../../api/FastApi';
 import FastApiErrorMessage from './FastApiErrorMessage';
 import Header from './Header';
 
+import "../css/Custom.css"
+
 function Home() {
   const [toDoList, set_toDoList] = useState([]);
   const [errorDetail, set_errorDetail] = useState({ detail: [] });
@@ -40,12 +42,13 @@ function Home() {
   function listingToDo() {
     return (
       <Fragment>
-        <table className="table">
+        <table className="table custom-table">
           <thead>
             <tr className="table-primary">
               <th>번호</th>
               <th>제목</th>
               <th>작성일시</th>
+              <th>완료</th>
             </tr>
           </thead>
           <tbody>
@@ -53,16 +56,19 @@ function Home() {
               return (
                 <Fragment key={index}>
                   <tr>
-                    <td>{total - page * size - parseInt(index)}</td>
-                    <td>
+                    <td className='custom-td'>{total - page * size - parseInt(index)}</td>
+                    <td className='custom-td'>
                       <Link to={'/todo/' + toDoList[index].id}>
                         {toDoList[index].todo_name}
                       </Link>
                     </td>
-                    <td>
+                    <td className='custom-td'>
                       {moment(toDoList[index].create_date).format(
                         'YYYY년 MM월 DD일 hh:mm a',
                       )}
+                    </td>
+                    <td className='custom-td'>
+                      {toDoList[index].is_finished ? "✔" : "✖"}
                     </td>
                   </tr>
                 </Fragment>
@@ -166,7 +172,7 @@ function Home() {
               className="page-link"
               onClick={() => set_page((page) => page - 1)}
             >
-              이전
+              {'<'}
             </button>
           </li>
 
@@ -189,7 +195,7 @@ function Home() {
               className="page-link"
               onClick={() => set_page((page) => page + 1)}
             >
-              다음
+              {'>'}
             </button>
           </li>
           <li className={`page-item ${page >= totalPage - 1 && 'disabled'}`}>
@@ -205,16 +211,35 @@ function Home() {
     );
   }
 
+  function homeUserLoginLogOut() {
+    if (localStorage.getItem('accessToken') === null) {
+      return (
+        <Fragment>
+          <div className="text-center">
+            <h1>
+              <strong>Login required</strong>
+            </h1>
+          </div>
+        </Fragment>
+      );
+    } else {
+      return (
+        <Fragment>
+          {todoForm()}
+          <br />
+          {FastApiErrorMessage(errorDetail)}
+          <ul className="text-center list-unstyled">{listingToDo()}</ul>
+          {pageBar()}
+        </Fragment>
+      );
+    }
+  }
+
   return (
     <Fragment>
       <Header />
       <div className="container">
-        {todoForm()}
-        <br />
-        {FastApiErrorMessage(errorDetail)}
-        <ul className="text-center list-unstyled">{listingToDo()}</ul>
-
-        {pageBar()}
+        {homeUserLoginLogOut()}
       </div>
     </Fragment>
   );
