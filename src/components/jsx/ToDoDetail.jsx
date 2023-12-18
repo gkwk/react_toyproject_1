@@ -6,7 +6,7 @@ import moment from 'moment/min/moment-with-locales';
 import FastApi from '../../api/FastApi';
 import Header from './Header';
 
-import "../css/Custom.css"
+import '../css/Custom.css';
 
 function ToDoDetail() {
   const { id } = useParams();
@@ -15,8 +15,13 @@ function ToDoDetail() {
   const [toDoIsFinished, set_toDoIsFinished] = useState(false);
 
   function changeToDoIsFinished(event) {
-    set_toDoIsFinished(() => (event.target.checked))
-    const params = { todo_name: toDoDetail.todo_name, text: toDoDetail.text, todoId: id, is_finished : event.target.checked };
+    set_toDoIsFinished(() => event.target.checked);
+    const params = {
+      todo_name: toDoDetail.todo_name,
+      text: toDoDetail.text,
+      todoId: id,
+      is_finished: event.target.checked,
+    };
     updateTodo(params);
   }
 
@@ -44,12 +49,11 @@ function ToDoDetail() {
       `api/todo/update`,
       null,
       params,
-      (json) => {
-      },
+      (json) => {},
       (json) => {
         set_errorDetail(json);
       },
-			true
+      true,
     );
   }
 
@@ -62,23 +66,30 @@ function ToDoDetail() {
       null,
       { todoId: id },
       (json) => {
-        navigate(`/`)
+        navigate(`/`);
       },
       (json) => {
         set_errorDetail(json);
       },
-			true
+      true,
     );
   }
 
   function detailToDo() {
     return (
       <Fragment key={toDoDetail.id}>
-        <h2 className="border-bottom py-2 custom-title">{toDoDetail.todo_name}</h2>
+        <h2 className="border-bottom py-2 custom-title">
+          {toDoDetail.todo_name}
+        </h2>
         <div className="card my-3">
           <div className="card-body">
             <div className="d-flex justify-content-end">
-              <input  type="checkbox" checked={toDoIsFinished || false} onChange={changeToDoIsFinished} style={{width:"50px",height:"50px"}}/>
+              <input
+                type="checkbox"
+                checked={toDoIsFinished || false}
+                onChange={changeToDoIsFinished}
+                style={{ width: '50px', height: '50px' }}
+              />
             </div>
             <div className="d-flex justify-content-end">
               <div className="badge bg-light text-dark p-2">
@@ -88,8 +99,12 @@ function ToDoDetail() {
               </div>
             </div>
             <div className="d-flex justify-content-end">
-              <div className="badge bg-light text-dark p-2" hidden={(toDoDetail.update_date === null) ? true : false}>
-                수정됨 - {moment(toDoDetail.update_date).format(
+              <div
+                className="badge bg-light text-dark p-2"
+                hidden={toDoDetail.update_date === null ? true : false}
+              >
+                수정됨 -{' '}
+                {moment(toDoDetail.update_date).format(
                   'YYYY년 MM월 DD일 hh:mm a',
                 )}
               </div>
@@ -121,10 +136,12 @@ function ToDoDetail() {
               <button className="btn btn-primary">Edit</button>
             </Link>
           </li>
-          <li className='ps-2'>
-            <button className="btn btn-primary" onClick={deleteTodo}>Delete</button>
+          <li className="ps-2">
+            <button className="btn btn-primary" onClick={deleteTodo}>
+              Delete
+            </button>
           </li>
-          <li className='ps-2'>
+          <li className="ps-2">
             <Link to={'/'}>
               <button className="btn btn-primary">Back</button>
             </Link>

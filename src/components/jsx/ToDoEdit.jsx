@@ -10,12 +10,12 @@ import FastApiErrorMessage from './FastApiErrorMessage';
 function ToDoEdit() {
   const { id } = useParams();
 
-	const [errorDetail, set_errorDetail] = useState({ detail: [] });
+  const [errorDetail, set_errorDetail] = useState({ detail: [] });
 
   const [toDoDetail, set_toDoDetail] = useState({});
 
-	const [toDoName, set_toDoName] = useState("");
-	const [toDoText, set_toDoText] = useState("");
+  const [toDoName, set_toDoName] = useState('');
+  const [toDoText, set_toDoText] = useState('');
 
   const navigate = useNavigate();
 
@@ -35,14 +35,14 @@ function ToDoEdit() {
     );
   }
 
-	function changeToDoName(event) {
+  function changeToDoName(event) {
     set_toDoName(event.target.value);
   }
-	function changeToDoText(event) {
+  function changeToDoText(event) {
     set_toDoText(event.target.value);
   }
 
-	function updateTodo(event) {
+  function updateTodo(event) {
     event.preventDefault();
 
     FastApi(
@@ -51,12 +51,12 @@ function ToDoEdit() {
       null,
       { todo_name: toDoName, text: toDoText, todoId: id },
       (json) => {
-        navigate(`/todo/${id}`)
+        navigate(`/todo/${id}`);
       },
       (json) => {
         set_errorDetail(json);
       },
-			true
+      true,
     );
   }
 
@@ -64,11 +64,23 @@ function ToDoEdit() {
     return (
       <Fragment>
         <h2 className="border-bottom py-2">
-					<input type="text" className="form-control" id="toDoName" value={toDoName || ""} onChange={changeToDoName} />
-				</h2>
+          <input
+            type="text"
+            className="form-control"
+            id="toDoName"
+            value={toDoName || ''}
+            onChange={changeToDoName}
+          />
+        </h2>
         <div className="card my-3">
           <div className="card-body">
-            <textarea className="form-control" rows="10" id="toDoText" value={toDoText || ""} onChange={changeToDoText} />
+            <textarea
+              className="form-control"
+              rows="10"
+              id="toDoText"
+              value={toDoText || ''}
+              onChange={changeToDoText}
+            />
           </div>
         </div>
       </Fragment>
@@ -79,23 +91,25 @@ function ToDoEdit() {
     getToDoDetail();
   }, []);
 
-	useEffect(() => {
-		set_toDoName(toDoDetail.todo_name);
-		set_toDoText(toDoDetail.text);
+  useEffect(() => {
+    set_toDoName(toDoDetail.todo_name);
+    set_toDoText(toDoDetail.text);
   }, [toDoDetail]);
 
   return (
     <Fragment>
       <Header />
       <div className="container">
-				{FastApiErrorMessage(errorDetail)}
+        {FastApiErrorMessage(errorDetail)}
         {toDoEditForm()}
 
         <ul className="d-flex flex-nowrap justify-content-center list-unstyled">
           <li>
-            <button className="btn btn-primary" onClick={updateTodo}>Confirm</button>
+            <button className="btn btn-primary" onClick={updateTodo}>
+              Confirm
+            </button>
           </li>
-          <li className='ps-2'>
+          <li className="ps-2">
             <Link to={`/todo/${id}`}>
               <button className="btn btn-primary">Back</button>
             </Link>

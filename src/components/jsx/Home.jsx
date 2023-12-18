@@ -7,7 +7,7 @@ import FastApi from '../../api/FastApi';
 import FastApiErrorMessage from './FastApiErrorMessage';
 import Header from './Header';
 
-import "../css/Custom.css"
+import '../css/Custom.css';
 
 function Home() {
   const [toDoList, set_toDoList] = useState([]);
@@ -56,19 +56,21 @@ function Home() {
               return (
                 <Fragment key={index}>
                   <tr>
-                    <td className='custom-td'>{total - page * size - parseInt(index)}</td>
-                    <td className='custom-td'>
+                    <td className="custom-td">
+                      {total - page * size - parseInt(index)}
+                    </td>
+                    <td className="custom-td">
                       <Link to={'/todo/' + toDoList[index].id}>
                         {toDoList[index].todo_name}
                       </Link>
                     </td>
-                    <td className='custom-td'>
+                    <td className="custom-td">
                       {moment(toDoList[index].create_date).format(
                         'YYYY년 MM월 DD일 hh:mm a',
                       )}
                     </td>
-                    <td className='custom-td'>
-                      {toDoList[index].is_finished ? "✔" : "✖"}
+                    <td className="custom-td">
+                      {toDoList[index].is_finished ? '✔' : '✖'}
                     </td>
                   </tr>
                 </Fragment>
@@ -101,7 +103,7 @@ function Home() {
       (json) => {
         set_errorDetail(json);
       },
-      true
+      true,
     );
   }
 
@@ -238,9 +240,7 @@ function Home() {
   return (
     <Fragment>
       <Header />
-      <div className="container">
-        {homeUserLoginLogOut()}
-      </div>
+      <div className="container">{homeUserLoginLogOut()}</div>
     </Fragment>
   );
 }
