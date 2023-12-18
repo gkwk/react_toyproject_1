@@ -22,8 +22,12 @@
 
 # 실행방법
 
+- .env파일 생성 및 아래의 변수 추가
+```
+REACT_APP_FASTAPI_ROOT_DOMAIN = http://(도메인 주소)
+REACT_APP_FASTAPI_PORT = (포트번호)
+```
 - 터미널에서 아래의 명령어 입력
-
 ```bash
 npm install
 npm start
