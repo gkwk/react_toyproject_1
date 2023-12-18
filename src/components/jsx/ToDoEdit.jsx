@@ -90,12 +90,17 @@ function ToDoEdit() {
       <div className="container">
 				{FastApiErrorMessage(errorDetail)}
         {toDoEditForm()}
-        <div className="text-center">
-					<button className="btn btn-primary" onClick={updateTodo}>Confirm</button>
-          <Link to={`/todo/${id}`} className='ps-3'>
-            <button className="btn btn-primary">Back</button>
-          </Link>
-        </div>
+
+        <ul className="d-flex flex-nowrap justify-content-center list-unstyled">
+          <li>
+            <button className="btn btn-primary" onClick={updateTodo}>Confirm</button>
+          </li>
+          <li className='ps-2'>
+            <Link to={`/todo/${id}`}>
+              <button className="btn btn-primary">Back</button>
+            </Link>
+          </li>
+        </ul>
       </div>
     </Fragment>
   );
