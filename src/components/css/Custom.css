@@ -1,0 +1,22 @@
+.custom-td {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 25%;
+}
+
+.custom-table {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+    table-layout: fixed;
+    word-break:break-all;
+}
+
+.custom-title {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+}
