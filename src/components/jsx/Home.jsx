@@ -31,7 +31,7 @@ function Home() {
         size: size,
       },
       (json) => {
-        set_toDoList([...json.todoList]);
+        set_toDoList([...json.todo_list]);
         set_total(json.total);
       },
       null,
@@ -61,7 +61,7 @@ function Home() {
                     </td>
                     <td className="custom-td">
                       <Link to={'/todo/' + toDoList[index].id}>
-                        {toDoList[index].todo_name}
+                        {toDoList[index].name}
                       </Link>
                     </td>
                     <td className="custom-td">
@@ -92,7 +92,7 @@ function Home() {
       'POST',
       `api/todo/create`,
       null,
-      { todo_name: ToDo_New_name, text: ToDo_New_text },
+      { name: ToDo_New_name, content: ToDo_New_text },
       () => {
         set_ToDo_New_name('');
         set_ToDo_New_text('');

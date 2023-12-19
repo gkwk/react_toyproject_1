@@ -24,7 +24,7 @@ function Login() {
       'application/x-www-form-urlencoded',
       { username: userName, password: password },
       (json) => {
-        localStorage.setItem('name', json.name);
+        localStorage.setItem('name', json.user_name);
         localStorage.setItem('accessToken', json.access_token);
         navigate('/');
       },

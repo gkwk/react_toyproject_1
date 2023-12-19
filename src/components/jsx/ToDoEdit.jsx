@@ -49,7 +49,7 @@ function ToDoEdit() {
       'PUT',
       `api/todo/update`,
       null,
-      { todo_name: toDoName, text: toDoText, todoId: id },
+      { name: toDoName, content: toDoText, id: id },
       (json) => {
         navigate(`/todo/${id}`);
       },
@@ -92,8 +92,8 @@ function ToDoEdit() {
   }, []);
 
   useEffect(() => {
-    set_toDoName(toDoDetail.todo_name);
-    set_toDoText(toDoDetail.text);
+    set_toDoName(toDoDetail.name);
+    set_toDoText(toDoDetail.content);
   }, [toDoDetail]);
 
   return (

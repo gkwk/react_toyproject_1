@@ -17,9 +17,9 @@ function ToDoDetail() {
   function changeToDoIsFinished(event) {
     set_toDoIsFinished(() => event.target.checked);
     const params = {
-      todo_name: toDoDetail.todo_name,
-      text: toDoDetail.text,
-      todoId: id,
+      name: toDoDetail.name,
+      content: toDoDetail.content,
+      id: id,
       is_finished: event.target.checked,
     };
     updateTodo(params);
@@ -79,7 +79,7 @@ function ToDoDetail() {
     return (
       <Fragment key={toDoDetail.id}>
         <h2 className="border-bottom py-2 custom-title">
-          {toDoDetail.todo_name}
+          {toDoDetail.name}
         </h2>
         <div className="card my-3">
           <div className="card-body">
@@ -109,7 +109,7 @@ function ToDoDetail() {
                 )}
               </div>
             </div>
-            <div className="card-text">{toDoDetail.text}</div>
+            <div className="card-text">{toDoDetail.content}</div>
           </div>
         </div>
       </Fragment>
