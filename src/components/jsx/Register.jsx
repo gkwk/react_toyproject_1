@@ -96,7 +96,7 @@ function Register() {
             value={email}
           />
         </div>
-        <div className='text-center'>
+        <div className="text-center">
           <button
             type="submit"
             className="btn btn-primary"
@@ -106,7 +106,7 @@ function Register() {
           </button>
         </div>
       </form>
-    )
+    );
   }
 
   return (

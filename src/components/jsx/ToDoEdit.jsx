@@ -109,7 +109,7 @@ function ToDoEdit() {
           </Link>
         </li>
       </ul>
-    )
+    );
   }
 
   return (

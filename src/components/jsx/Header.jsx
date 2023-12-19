@@ -7,17 +7,25 @@ function Header() {
   const [navigationBarToggle, set_navBarToggle] = useState(false);
 
   useEffect(() => {
-    if (navigationBarCollapse.current.className.toLowerCase().includes('show')) {
+    if (
+      navigationBarCollapse.current.className.toLowerCase().includes('show')
+    ) {
       set_navBarToggle(true);
     }
 
-    navigationBarCollapse.current.addEventListener('hidden.bs.collapse', (event) => {
-      set_navBarToggle(false);
-    });
+    navigationBarCollapse.current.addEventListener(
+      'hidden.bs.collapse',
+      (event) => {
+        set_navBarToggle(false);
+      },
+    );
 
-    navigationBarCollapse.current.addEventListener('show.bs.collapse', (event) => {
-      set_navBarToggle(true);
-    });
+    navigationBarCollapse.current.addEventListener(
+      'show.bs.collapse',
+      (event) => {
+        set_navBarToggle(true);
+      },
+    );
   }, []);
 
   function navigationBarUserLoginLogOut() {

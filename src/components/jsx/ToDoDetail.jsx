@@ -86,9 +86,7 @@ function ToDoDetail() {
   function showTodoDetail() {
     return (
       <Fragment key={toDoDetail.id}>
-        <h2 className="border-bottom py-2 custom-title">
-          {toDoDetail.name}
-        </h2>
+        <h2 className="border-bottom py-2 custom-title">{toDoDetail.name}</h2>
         <div className="card my-3">
           <div className="card-body">
             <div className="d-flex justify-content-end">
@@ -143,7 +141,7 @@ function ToDoDetail() {
           </Link>
         </li>
       </ul>
-    )
+    );
   }
 
   return (

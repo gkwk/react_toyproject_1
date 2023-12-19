@@ -65,7 +65,7 @@ function Login() {
             value={password}
           />
         </div>
-        <div className='text-center'>
+        <div className="text-center">
           <button
             type="submit"
             className="btn btn-primary"
@@ -75,7 +75,7 @@ function Login() {
           </button>
         </div>
       </form>
-    )
+    );
   }
 
   return (
