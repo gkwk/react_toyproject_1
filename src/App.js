@@ -18,23 +18,17 @@ function App() {
     return localStorage.getItem('accessToken') ? true : false;
   }
   
-  function userAuthenticatedLoader(TargetURL) {
+  function userAuthenticatedLoader(TargetURL = "") {
     if (!AuthCheck()) {
       // loader는 Navigate대신 redirect를 사용해야 한다.
-      if (TargetURL !== null) {
-        return redirect('/' + TargetURL);
-      }
-      return redirect('/');
+      return redirect('/' + TargetURL);
     }
     return null;
   }
 
-  function userNotAuthenticatedLoader(TargetURL) {
+  function userNotAuthenticatedLoader(TargetURL = "") {
     if (AuthCheck()) {
-      if (TargetURL !== null) {
-        return redirect('/' + TargetURL);
-      }
-      return redirect('/');
+      return redirect('/' + TargetURL);
     }
     return null;
   }
