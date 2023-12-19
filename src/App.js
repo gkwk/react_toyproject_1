@@ -10,10 +10,35 @@ import Home from './components/jsx/Home.jsx';
 import ToDoDetail from './components/jsx/ToDoDetail.jsx';
 import Register from './components/jsx/Register.jsx';
 import Login from './components/jsx/Login.jsx';
-import { useEffect } from 'react';
 import ToDoEdit from './components/jsx/ToDoEdit.jsx';
+import Logout from './components/jsx/Logout.jsx';
 
 function App() {
+  function AuthCheck() {
+    return localStorage.getItem('accessToken') ? true : false;
+  }
+  
+  function userAuthenticatedLoader(TargetURL) {
+    if (!AuthCheck()) {
+      // loader는 Navigate대신 redirect를 사용해야 한다.
+      if (TargetURL !== null) {
+        return redirect('/' + TargetURL);
+      }
+      return redirect('/');
+    }
+    return null;
+  }
+
+  function userNotAuthenticatedLoader(TargetURL) {
+    if (AuthCheck()) {
+      if (TargetURL !== null) {
+        return redirect('/' + TargetURL);
+      }
+      return redirect('/');
+    }
+    return null;
+  }
+
   const router = createBrowserRouter([
     {
       path: '/',
@@ -22,29 +47,27 @@ function App() {
     {
       path: '/todo/:id',
       Component: ToDoDetail,
+      loader: () => userAuthenticatedLoader(),
     },
     {
       path: '/todo/edit/:id',
       Component: ToDoEdit,
+      loader: () => userAuthenticatedLoader(),
     },
     {
       path: '/register',
       Component: Register,
+      loader: () => userNotAuthenticatedLoader(),
     },
     {
       path: '/login',
       Component: Login,
+      loader: () => userNotAuthenticatedLoader(),
     },
     {
       path: '/logout',
-      Component: () => {
-        const navigate = useNavigate();
-        useEffect(() => {
-          localStorage.removeItem('name');
-          localStorage.removeItem('accessToken');
-          navigate('/');
-        }, [navigate]);
-      },
+      Component: Logout,
+      loader: () => userAuthenticatedLoader(),
     },
     {
       path: '*',
