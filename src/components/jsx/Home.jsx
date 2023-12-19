@@ -10,18 +10,38 @@ import Header from './Header';
 import '../css/Custom.css';
 
 function Home() {
+  moment.locale('ko');
+
   const [toDoList, set_toDoList] = useState([]);
   const [errorDetail, set_errorDetail] = useState({ detail: [] });
   const [page, set_page] = useState(0);
   const [size, set_size] = useState(10);
   const [total, set_total] = useState(0);
   const [totalPage, set_totalPage] = useState(1);
+  
+  const [ToDoNewName, set_ToDoNewName] = useState('');
+  const [ToDoNewContent, set_ToDoNewContent] = useState('');
 
   const navigate = useNavigate();
 
-  moment.locale('ko');
+  function changeToDoNewName(event) {
+    set_ToDoNewName(event.target.value);
+  }
+  function changeToDoNewContent(event) {
+    set_ToDoNewContent(event.target.value);
+  }
 
-  function getToDoList() {
+  useEffect(() => {
+    if (localStorage.getItem('accessToken') !== null) {
+      getTodoListApi(page);
+    }
+  }, [page]);
+
+  useEffect(() => {
+    set_totalPage(Math.ceil(total / size));
+  }, [total, size]);
+
+  function getTodoListApi() {
     FastApi(
       'get',
       `api/todo/list`,
@@ -39,7 +59,29 @@ function Home() {
     );
   }
 
-  function listingToDo() {
+  function createTodoApi(event) {
+    event.preventDefault();
+
+    FastApi(
+      'POST',
+      `api/todo/create`,
+      null,
+      { name: ToDoNewName, content: ToDoNewContent },
+      () => {
+        set_ToDoNewName('');
+        set_ToDoNewContent('');
+        set_errorDetail({ detail: [] });
+
+        getTodoListApi();
+      },
+      (json) => {
+        set_errorDetail(json);
+      },
+      true,
+    );
+  }
+
+  function listingTodo() {
     return (
       <Fragment>
         <table className="table custom-table">
@@ -60,7 +102,7 @@ function Home() {
                       {total - page * size - parseInt(index)}
                     </td>
                     <td className="custom-td">
-                      <Link to={'/todo/' + toDoList[index].id}>
+                      <Link to={`/todo/${toDoList[index].id}`}>
                         {toDoList[index].name}
                       </Link>
                     </td>
@@ -82,39 +124,7 @@ function Home() {
     );
   }
 
-  const [ToDo_New_name, set_ToDo_New_name] = useState('');
-  const [ToDo_New_text, set_ToDo_New_text] = useState('');
-
-  function createTodo(event) {
-    event.preventDefault();
-
-    FastApi(
-      'POST',
-      `api/todo/create`,
-      null,
-      { name: ToDo_New_name, content: ToDo_New_text },
-      () => {
-        set_ToDo_New_name('');
-        set_ToDo_New_text('');
-        set_errorDetail({ detail: [] });
-
-        getToDoList();
-      },
-      (json) => {
-        set_errorDetail(json);
-      },
-      true,
-    );
-  }
-
-  function set_ToDo_New_nameChange(event) {
-    set_ToDo_New_name(event.target.value);
-  }
-  function set_ToDo_New_textChange(event) {
-    set_ToDo_New_text(event.target.value);
-  }
-
-  function todoForm() {
+  function createTodoForm() {
     return (
       <div className="mt-4">
         <div className="d-flex">
@@ -122,19 +132,19 @@ function Home() {
             <div className="d-flex">
               <div className="flex-grow-1">
                 <input
-                  value={ToDo_New_name}
-                  onChange={set_ToDo_New_nameChange}
+                  value={ToDoNewName}
+                  onChange={changeToDoNewName}
                   className="flex-grow-1 form-control mb-1"
                   placeholder="Title"
                 />
                 <input
-                  value={ToDo_New_text}
-                  onChange={set_ToDo_New_textChange}
+                  value={ToDoNewContent}
+                  onChange={changeToDoNewContent}
                   className="flex-grow-1 form-control"
                   placeholder="content"
                 />
               </div>
-              <button onClick={createTodo} className="btn btn-primary ms-3">
+              <button onClick={createTodoApi} className="btn btn-primary ms-3">
                 추가
               </button>
             </div>
@@ -144,21 +154,7 @@ function Home() {
     );
   }
 
-  function setPageNumber(event) {
-    set_page(event.target.value);
-  }
-
-  useEffect(() => {
-    if (localStorage.getItem('accessToken') !== null) {
-      getToDoList(page);
-    }
-  }, [page]);
-
-  useEffect(() => {
-    set_totalPage(Math.ceil(total / size));
-  }, [total, size]);
-
-  function pageBar() {
+  function pageNavigationBar() {
     const pageArray = Array.from({ length: totalPage }, (v, i) => i);
 
     return (
@@ -227,11 +223,11 @@ function Home() {
     } else {
       return (
         <Fragment>
-          {todoForm()}
+          {createTodoForm()}
           <br />
           {FastApiErrorMessage(errorDetail)}
-          <ul className="text-center list-unstyled">{listingToDo()}</ul>
-          {pageBar()}
+          <ul className="text-center list-unstyled">{listingTodo()}</ul>
+          {pageNavigationBar()}
         </Fragment>
       );
     }

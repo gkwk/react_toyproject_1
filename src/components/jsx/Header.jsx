@@ -2,35 +2,35 @@ import { Fragment, useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 function Header() {
-  const isNavBarToggled = useRef();
+  const navigationBarCollapse = useRef();
 
-  const [navBarToggle, set_navBarToggle] = useState(false);
+  const [navigationBarToggle, set_navBarToggle] = useState(false);
 
   useEffect(() => {
-    if (isNavBarToggled.current.className.toLowerCase().includes('show')) {
+    if (navigationBarCollapse.current.className.toLowerCase().includes('show')) {
       set_navBarToggle(true);
     }
 
-    isNavBarToggled.current.addEventListener('hidden.bs.collapse', (event) => {
+    navigationBarCollapse.current.addEventListener('hidden.bs.collapse', (event) => {
       set_navBarToggle(false);
     });
 
-    isNavBarToggled.current.addEventListener('show.bs.collapse', (event) => {
+    navigationBarCollapse.current.addEventListener('show.bs.collapse', (event) => {
       set_navBarToggle(true);
     });
   }, []);
 
-  function navBarUserLoginLogOut() {
+  function navigationBarUserLoginLogOut() {
     if (localStorage.getItem('accessToken') === null) {
       return (
         <Fragment>
-          <li className={`nav-item ${navBarToggle && 'ms-auto'} ps-2`}>
+          <li className={`nav-item ${navigationBarToggle && 'ms-auto'} ps-2`}>
             <Link to={'/register'} className="navbar-link">
               회원가입
             </Link>
           </li>
 
-          <li className={`nav-item ${navBarToggle && 'ms-auto'} ps-2`}>
+          <li className={`nav-item ${navigationBarToggle && 'ms-auto'} ps-2`}>
             <Link to={'/login'} className="navbar-link">
               로그인
             </Link>
@@ -40,11 +40,10 @@ function Header() {
     } else {
       return (
         <Fragment>
-          <li className={`nav-item ${navBarToggle && 'ms-auto'} ps-2`}>
+          <li className={`nav-item ${navigationBarToggle && 'ms-auto'} ps-2`}>
             {localStorage.getItem('name')}님 환영합니다
           </li>
-
-          <li className={`nav-item ${navBarToggle && 'ms-auto'} ps-2`}>
+          <li className={`nav-item ${navigationBarToggle && 'ms-auto'} ps-2`}>
             <Link to={'/logout'} className="navbar-link">
               로그아웃
             </Link>
@@ -74,10 +73,10 @@ function Header() {
         <div
           className="collapse navbar-collapse"
           id="navbarSupportedContent"
-          ref={isNavBarToggled}
+          ref={navigationBarCollapse}
         >
           <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
-            {navBarUserLoginLogOut()}
+            {navigationBarUserLoginLogOut()}
           </ul>
         </div>
       </div>

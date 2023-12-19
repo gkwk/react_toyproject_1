@@ -9,10 +9,22 @@ import Header from './Header';
 import '../css/Custom.css';
 
 function ToDoDetail() {
+  moment.locale('ko');
+
   const { id } = useParams();
 
   const [toDoDetail, set_toDoDetail] = useState({});
   const [toDoIsFinished, set_toDoIsFinished] = useState(false);
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    getToDoDetailApi();
+  }, []);
+
+  useEffect(() => {
+    set_toDoIsFinished(toDoDetail.is_finished);
+  }, [toDoDetail]);
 
   function changeToDoIsFinished(event) {
     set_toDoIsFinished(() => event.target.checked);
@@ -22,14 +34,10 @@ function ToDoDetail() {
       id: id,
       is_finished: event.target.checked,
     };
-    updateTodo(params);
+    updateTodoApi(params);
   }
 
-  const navigate = useNavigate();
-
-  moment.locale('ko');
-
-  function getToDoDetail() {
+  function getToDoDetailApi() {
     FastApi(
       'get',
       `api/todo/detail/${id}`,
@@ -43,13 +51,13 @@ function ToDoDetail() {
     );
   }
 
-  function updateTodo(params) {
+  function updateTodoApi(params) {
     FastApi(
       'PUT',
       `api/todo/update`,
       null,
       params,
-      (json) => {},
+      () => {},
       (json) => {
         set_errorDetail(json);
       },
@@ -57,15 +65,15 @@ function ToDoDetail() {
     );
   }
 
-  function deleteTodo(event) {
+  function deleteTodoApi(event) {
     event.preventDefault();
 
     FastApi(
       'DELETE',
       `api/todo/delete`,
       null,
-      { todoId: id },
-      (json) => {
+      { id: id },
+      () => {
         navigate(`/`);
       },
       (json) => {
@@ -75,7 +83,7 @@ function ToDoDetail() {
     );
   }
 
-  function detailToDo() {
+  function showTodoDetail() {
     return (
       <Fragment key={toDoDetail.id}>
         <h2 className="border-bottom py-2 custom-title">
@@ -116,37 +124,34 @@ function ToDoDetail() {
     );
   }
 
-  useEffect(() => {
-    getToDoDetail();
-  }, []);
-
-  useEffect(() => {
-    set_toDoIsFinished(toDoDetail.is_finished);
-  }, [toDoDetail]);
+  function navigationBar() {
+    return (
+      <ul className="d-flex flex-nowrap justify-content-center list-unstyled">
+        <li>
+          <Link to={`/todo/edit/${id}`}>
+            <button className="btn btn-primary">Edit</button>
+          </Link>
+        </li>
+        <li className="ps-2">
+          <button className="btn btn-primary" onClick={deleteTodoApi}>
+            Delete
+          </button>
+        </li>
+        <li className="ps-2">
+          <Link to={'/'}>
+            <button className="btn btn-primary">Back</button>
+          </Link>
+        </li>
+      </ul>
+    )
+  }
 
   return (
     <Fragment>
       <Header />
       <div className="container">
-        {detailToDo()}
-
-        <ul className="d-flex flex-nowrap justify-content-center list-unstyled">
-          <li>
-            <Link to={`/todo/edit/${id}`}>
-              <button className="btn btn-primary">Edit</button>
-            </Link>
-          </li>
-          <li className="ps-2">
-            <button className="btn btn-primary" onClick={deleteTodo}>
-              Delete
-            </button>
-          </li>
-          <li className="ps-2">
-            <Link to={'/'}>
-              <button className="btn btn-primary">Back</button>
-            </Link>
-          </li>
-        </ul>
+        {showTodoDetail()}
+        {navigationBar()}
       </div>
     </Fragment>
   );
